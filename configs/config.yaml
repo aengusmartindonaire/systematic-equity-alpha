@@ -1,0 +1,19 @@
+project:
+  name: "systematic-equity-alpha"
+  random_seed: 42
+
+paths:
+  raw_data: "data/raw/20251109_Blg_Rsk_Factors.par"
+  processed_data: "data/processed/clean_factors.parquet"
+  models: "models/"
+  reports: "reports/figures/"
+  logs: "logs/"
+
+data:
+  target_col: "FwdRet"  
+  date_col: "Date"
+  ticker_col: "ticker"
+  train_start: "1999-01-01"
+  train_end: "2015-12-31"
+  test_start: "2016-01-01"
+  test_end: "2023-12-31"
