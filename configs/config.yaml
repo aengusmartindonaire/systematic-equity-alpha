@@ -1,19 +1,97 @@
-project:
-  name: "systematic-equity-alpha"
-  random_seed: 42
+# ============================================================================
+# Systematic Equity Alpha — Master Configuration
+# ============================================================================
+# All relative paths are resolved to absolute paths at load time by
+# src/utils/config_loader.py (relative to the project root).
 
 paths:
   raw_data: "data/raw/20251109_Blg_Rsk_Factors.par"
-  processed_data: "data/processed/clean_factors.parquet"
-  models: "models/"
-  reports: "reports/figures/"
-  logs: "logs/"
+  processed_data: "data/processed/final_model_data.parquet"
+  models: "models"
+  results: "results"
+  logs: "logs"
 
 data:
-  target_col: "FwdRet"  
   date_col: "Date"
-  ticker_col: "ticker"
-  train_start: "1999-01-01"
-  train_end: "2015-12-31"
-  test_start: "2016-01-01"
-  test_end: "2023-12-31"
+  ticker_col: "Ticker"
+  target_col: "FwdRet"
+  test_start: "2023-01-01"
+  test_end: "2025-12-31"
+
+  # ── Column groups from the Bloomberg specification ──
+
+  risk_factors:
+    - Sz
+    - Prof
+    - Vol
+    - Trd Act
+    - Lev
+    - Mom
+    - Val
+    - Gr
+    - Dvd Yld
+    - Earn Var
+
+  extra_features:
+    - "P/S"
+    - "BEst P/S BF12M"
+    - "P/B"
+    - "BEst P/B BF12M"
+    - "P/E"
+    - "BEst P/E BF12M"
+    - "ROE LF"
+    - "Beta:Y-1"
+    - "Total Return:Y-1"
+    - "Number of Employees:Y"
+    - "Market Cap"
+
+  # ── Feature selection decisions ──
+  # Started with 5 keep candidates; dropped Total Return:Y-1 after
+  # the outlier investigation.
+  keep_extra:
+    - "BEst P/S BF12M"
+    - "BEst P/B BF12M"
+    - "BEst P/E BF12M"
+    - "Beta:Y-1"
+
+  drop_extra:
+    - "ROE LF"
+    - "P/S"
+    - "P/B"
+    - "P/E"
+    - "Market Cap"
+    - "Number of Employees:Y"
+    - "Total Return:Y-1"
+
+  gics_cols:
+    - GICS_Sector_Name
+    - GICS_Industry_Name
+    - GICS_SubInd_Name
+
+  # ── Target variable treatment ──
+  # Chosen quantile: q = 0.008  (clips both tails symmetrically)
+  fwdret_clip_quantile: 0.008
+
+# ── Model: Optuna XGBoost Champion ──
+# These are the exact winning parameters from the Optuna study:
+#   Best mean CV R²: 0.108242
+model:
+  name: "XGBoost"
+  params:
+    n_estimators: 593
+    max_depth: 5
+    learning_rate: 0.023324877778608765
+    subsample: 0.7538740745529875
+    colsample_bytree: 0.7615464432458687
+    reg_lambda: 5.01325529529293
+    random_state: 42
+    n_jobs: -1
+
+  # Walk-forward settings
+  walk_forward:
+    train_window: 12          # number of periods in rolling lookback
+    top_bottom_frac: 0.10     # long top 10%, short bottom 10%
+    min_names: 30             # minimum names per side
+    window_type: "rolling"
+
+random_state: 42
