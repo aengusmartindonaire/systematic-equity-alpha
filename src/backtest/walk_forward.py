@@ -1,7 +1,7 @@
 """
 Walk-forward backtesting functions for systematic equity strategies.
 
-Extracted from the consolidated notebook §3.2. Contains:
+This file contains:
 - run_walk_forward_tv_style: Basic walk-forward with rolling/expanding window
 - run_master_strategy: Advanced walk-forward with alpha target + XGBRanker
 - AdaptiveBlendedModel: Blends BayesianRidge and XGBoost with adaptive weights
