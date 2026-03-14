@@ -16,10 +16,10 @@ The pipeline covers every stage of a production quant workflow. From raw data va
 
 | Stage | Metric | Value |
 |---|---|---|
-| Model Selection (§2.1) | Best CV R² | XGBoost: 0.104 (Optuna-tuned) |
-| Explainability (§2.3) | Top SHAP driver | `Beta:Y-1` by wide margin, then `Dvd Yld`, `Earn Var` |
-| PM Dashboard (§3.1) | In-sample IC | 0.59 (Spearman rank correlation) |
-| Walk-Forward (§3.2) | **Best strategy** | **Adaptive Blended: +439% cumulative alpha, Sharpe 0.38** |
+| Model Selection | Best CV R² | XGBoost: 0.104 (Optuna-tuned) |
+| Explainability | Top SHAP driver | `Beta:Y-1` by wide margin, then `Dvd Yld`, `Earn Var` |
+| PM Dashboard | In-sample IC | 0.59 (Spearman rank correlation) |
+| Walk-Forward | **Best strategy** | **Adaptive Blended: +439% cumulative alpha, Sharpe 0.38** |
 
 **Central Finding:** The R²-tuned XGBoost that dominated in-sample (R² ~ 0.10) produced *negative* alpha (−20%) in walk-forward testing. The "boring" BayesianRidge achieved better out-of-sample rank quality (IC = 0.030 vs 0.022). The Adaptive Blended Model (dynamically weighting both) delivered the best overall performance: +439% cumulative long-short alpha over 25 years.
 
@@ -36,13 +36,13 @@ systematic-equity-alpha/
 │   ├── raw/                                 # Bloomberg factor file (.par) — excluded
 │   └── processed/                           # Intermediate datasets — excluded
 ├── notebooks/
-│   ├── 01_data_ingestion.ipynb              # §1.1 — Load, validate, inspect raw data
-│   ├── 02_feature_engineering.ipynb         # §1.2–1.5 — Multicollinearity, outlier treatment, GICS
-│   ├── 03_model_baselines_and_selection.ipynb   # §2.1 — 5-model bake-off
-│   ├── 04_model_tuning_and_optimization.ipynb   # §2.2 — RandomizedSearchCV + Optuna
-│   ├── 05_model_explainability_and_analysis.ipynb  # §2.3 — Full SHAP analysis
-│   ├── 06_pm_dashboard_and_alpha.ipynb      # §3.1 — PM dashboard, surprise detection
-│   └── 07_walk_forward_strategy.ipynb       # §3.2 — Walk-forward backtest, blended model
+│   ├── 01_data_ingestion.ipynb              # Load, validate, inspect raw data
+│   ├── 02_feature_engineering.ipynb         # Multicollinearity, outlier treatment, GICS
+│   ├── 03_model_baselines_and_selection.ipynb   # 5-model bake-off
+│   ├── 04_model_tuning_and_optimization.ipynb   # RandomizedSearchCV + Optuna
+│   ├── 05_model_explainability_and_analysis.ipynb  # Full SHAP analysis
+│   ├── 06_pm_dashboard_and_alpha.ipynb      # PM dashboard, surprise detection
+│   └── 07_walk_forward_strategy.ipynb       # Walk-forward backtest, blended model
 ├── src/
 │   ├── loaders/
 │   │   ├── data_loader.py                   # Parquet loading, date parsing, MultiIndex
@@ -135,7 +135,7 @@ The notebooks retain their cell outputs (plots, tables, print statements) so the
 
 ```bash
 # Clone
-git clone https://github.com/<your-username>/systematic-equity-alpha.git
+git clone https://github.com/aengusmartindonaire/systematic-equity-alpha.git
 cd systematic-equity-alpha
 
 # Install dependencies
