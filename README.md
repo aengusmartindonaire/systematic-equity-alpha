@@ -199,15 +199,15 @@ Every `.py` module is imported by at least one notebook. The notebooks are the p
 
 ## Notebook Guide
 
-| # | Notebook | Sections | Runtime | Key Outputs |
-|---|---|---|---|---|
-| 01 | Data Ingestion | §1.1 | < 1 min | Schema validation, sparsity analysis |
-| 02 | Feature Engineering | §1.2–1.5 | ~2 min | Correlation heatmaps, clipping bake-off, GICS bake-off, `final_model_data.parquet` |
-| 03 | Model Baselines | §2.1 | ~3 min | 5-model CV scoreboard, `03_model_bakeoff_metrics.csv` |
-| 04 | Model Tuning | §2.2 | ~15 min | RandomizedSearchCV + Optuna (50 trials), `xgb_champion.joblib` |
-| 05 | Explainability | §2.3 | ~30 min | SHAP bar/dot/interaction/PDP plots, sector scorecard, banking crisis case study, force plots |
-| 06 | PM Dashboard | §3.1 | ~10 min | Unexpected gain/loss table, SHAP waterfall post-mortems (PACW, VST) |
-| 07 | Walk-Forward | §3.2 | ~60 min | 3-strategy comparison, cumulative alpha charts, model comparison summary |
+| # | Notebook | Runtime | Key Outputs |
+|---|---|---|---|
+| 01 | Data Ingestion | < 1 min | Schema validation, sparsity analysis |
+| 02 | Feature Engineering | ~2 min | Correlation heatmaps, clipping bake-off, GICS bake-off, `final_model_data.parquet` |
+| 03 | Model Baselines | ~3 min | 5-model CV scoreboard, `03_model_bakeoff_metrics.csv` |
+| 04 | Model Tuning | ~15 min | RandomizedSearchCV + Optuna (50 trials), `xgb_champion.joblib` |
+| 05 | Explainability | ~30 min | SHAP bar/dot/interaction/PDP plots, sector scorecard, banking crisis case study, force plots |
+| 06 | PM Dashboard | ~10 min | Unexpected gain/loss table, SHAP waterfall post-mortems (PACW, VST) |
+| 07 | Walk-Forward | ~60 min | 3-strategy comparison, cumulative alpha charts, model comparison summary |
 
 **Note on runtime:** Notebook 05's SHAP interaction values (~20 min) are cached to `results/shap_interactions.pkl` after first computation. Notebook 07's Optuna IC study (30 trials × walk-forward) is the longest-running cell.
 
@@ -218,7 +218,7 @@ Every `.py` module is imported by at least one notebook. The notebooks are the p
 All runtime parameters are centralized in `configs/config.yaml`:
 
 ```yaml
-# Model: Optuna XGBoost Champion (from §2.2)
+# Model: Optuna XGBoost Champion
 model:
   params:
     n_estimators: 593
@@ -228,7 +228,7 @@ model:
     colsample_bytree: 0.762
     reg_lambda: 5.013
 
-# Walk-forward settings (from §3.2)
+# Walk-forward settings
   walk_forward:
     train_window: 12
     top_bottom_frac: 0.10
